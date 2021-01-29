@@ -7,7 +7,7 @@ function App() {
       <div className="max-w-7xl mx-auto">
         <Router>
           <Switch>
-            <Route path="/vote">
+            <Route path="/vote/:id">
               <Pages.Vote />
             </Route>
             <Route path="/">

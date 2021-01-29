@@ -1,4 +1,4 @@
-import * as firebase from "firebase/app"
+import firebase from "firebase/app"
 import "firebase/firestore"
 import "firebase/auth"
 
@@ -10,15 +10,21 @@ firebase.initializeApp({
 
 const db = firebase.firestore()
 
-const addVote = () => {
+export const addVote = (voteId, vote) => {
   db.collection("votes")
-    .add({
-      test: "this",
-    })
-    .then((docRef) => {
-      console.log("Document written with ID: ", docRef.id)
-    })
+    .doc(voteId)
+    .set({ ...vote }, { merge: true })
     .catch((error) => {
       console.error("Error adding document: ", error)
     })
+}
+
+export const streamVoters = (voteId, observer) => {
+  return (
+    db
+      .collection("votes")
+      .doc(voteId)
+      //.orderBy('created')
+      .onSnapshot(observer)
+  )
 }
