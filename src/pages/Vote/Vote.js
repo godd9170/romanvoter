@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import RegisterVoter from "./components/RegisterVoter"
-import Arena from "./components/Arena"
-import Voters from "./components/Voters"
+import VoteResults from "./components/VoteResults"
 import { addVote } from "services/firebase"
 import { useParams } from "react-router-dom"
+import { Card } from "components"
 
 function Vote() {
   const [isRegistered, setIsRegistered] = useState(false)
@@ -17,7 +17,9 @@ function Vote() {
 
   return (
     <React.Fragment>
-      <Arena>{isRegistered ? <Voters voteId={id}></Voters> : <RegisterVoter registerAndVote={registerAndVote}></RegisterVoter>}</Arena>
+      <Card>
+        {isRegistered ? <VoteResults voteId={id}></VoteResults> : <RegisterVoter registerAndVote={registerAndVote}></RegisterVoter>}
+      </Card>
     </React.Fragment>
   )
 }

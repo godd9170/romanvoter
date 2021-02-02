@@ -10,10 +10,21 @@ firebase.initializeApp({
 
 const db = firebase.firestore()
 
+export const createVote = (voteId, name) => {
+  db.collection("votes")
+    .doc(voteId)
+    .set({ name, results: [] }, { merge: true })
+    .catch((error) => {
+      console.error("Error adding document: ", error)
+    })
+}
+
 export const addVote = (voteId, vote) => {
   db.collection("votes")
     .doc(voteId)
-    .set({ ...vote }, { merge: true })
+    .update({
+      results: firebase.firestore.FieldValue.arrayUnion(vote),
+    })
     .catch((error) => {
       console.error("Error adding document: ", error)
     })

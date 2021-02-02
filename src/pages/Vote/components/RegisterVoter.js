@@ -1,6 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
+import VotePicker from "./VotePicker"
+import { randomEmoji } from "services/emoji"
 
 function RegisterVoter({ registerAndVote }) {
+  const [name, setName] = useState("")
+  const [vote, setVote] = useState(null)
+
   return (
     <React.Fragment>
       <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -35,15 +40,21 @@ function RegisterVoter({ registerAndVote }) {
           autoComplete="given-name"
           placeholder="Julius Caesar"
           className="border border-gray-300 rounded py-2 px-3 text-grey-darkest w-full"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         ></input>
+      </div>
+      <div className="px-4 sm:px-6 pt-4 pb-4">
+        <VotePicker setVote={setVote} />
       </div>
       <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
         <button
+          disabled={name === "" || vote === null ? true : false}
           onClick={() => {
-            registerAndVote({ "🚁": { name: "Hank", vote: false } })
+            registerAndVote({ name, vote, emoji: randomEmoji })
           }}
           type="button"
-          className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+          className="disabled:opacity-50 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
         >
           Vote!
         </button>
